@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CustomerApi.Api.Models;
+using CustomerApi.Application.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace CustomerApi.Api.Controllers
@@ -8,15 +10,31 @@ namespace CustomerApi.Api.Controllers
     public class CustomerController : ControllerBase
     {
         private ILogger<CustomerController> _logger;
+        private readonly ICustomerService _customerService;
 
-        public CustomerController(ILogger<CustomerController> logger)
+        public CustomerController(ILogger<CustomerController> logger, ICustomerService customerService)
         {
             _logger = logger;
+            _customerService = customerService;
         }
 
-        public IActionResult Index()
+        [HttpGet]
+        [Route("{id:guid}")]
+        public async Task<IActionResult> GetCustomerById(Guid id)
         {
-            return Ok();
+            var customer = await _customerService.GetCustomer(id);
+
+            //TODO use automapper
+            var result = new CustomerResponse
+            {
+                Id = customer.Id,
+                Name = customer.Name,
+                Email = customer.Email
+            };
+            
+            return Ok(result);
         }
+
+
     }
 }

@@ -16,6 +16,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+//TODO register some DI's
+
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
