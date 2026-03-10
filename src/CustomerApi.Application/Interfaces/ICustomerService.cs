@@ -9,6 +9,8 @@ namespace CustomerApi.Application.Interfaces
 {
     public interface ICustomerService
     {
-        Task<CustomerDto> GetCustomer(Guid id);
+        Task<CustomerDto> GetCustomer(int id);
+
+        Task<CustomerDto> CreateCustomer(CustomerDto customer);
     }
 }

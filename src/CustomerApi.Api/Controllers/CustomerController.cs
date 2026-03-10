@@ -19,8 +19,8 @@ namespace CustomerApi.Api.Controllers
         }
 
         [HttpGet]
-        [Route("{id:guid}")]
-        public async Task<IActionResult> GetCustomerById(Guid id)
+        [Route("{id:int}")]
+        public async Task<IActionResult> GetCustomerById(int id)
         {
             var customer = await _customerService.GetCustomer(id);
 
@@ -33,6 +33,15 @@ namespace CustomerApi.Api.Controllers
             };
             
             return Ok(result);
+        }
+
+        [HttpPost]  
+        public async Task<IActionResult> CreateCustomer([FromBody] CreateCustomerRequest request)
+        {
+            var customerdto = new Application.DTO.CustomerDto() { Name = request.Name, Email = request.Email };
+            var result = await _customerService.CreateCustomer(customerdto);
+            
+            return CreatedAtAction(nameof(GetCustomerById), new { id = result.Id }, result);
         }
 
 

@@ -1,4 +1,5 @@
 ﻿using CustomerApi.Application.DTO;
+using CustomerApi.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,9 @@ namespace CustomerApi.Application.Interfaces
 {
     public interface ICustomerRepository
     {
-            Task<IEnumerable<CustomerDto>> GetAllAsync();
-            Task<CustomerDto> GetByIdAsync(Guid id);
-            Task AddAsync(CustomerDto customer);
-            Task DeleteAsync(Guid id);
+            Task<IEnumerable<Customer>> GetAllAsync();
+            Task<Customer> GetByIdAsync(int id);
+            Task<Customer> AddAsync(Customer customer);
+            Task DeleteAsync(int id);
     }
 }

@@ -8,11 +8,15 @@ namespace CustomerApi.Application.DTO
 {
     public class CustomerDto
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
 
-        public CustomerDto(Guid id, string name, string email)
+        public CustomerDto()
+        {
+        }
+
+        public CustomerDto(int id, string name, string email)
         {
             Id = id;
             Name = name;
