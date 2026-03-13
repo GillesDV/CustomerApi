@@ -45,9 +45,18 @@ namespace CustomerApi.Application.Services
             return new CustomerDto(customer.Id, customer.Name, customer.Email);
         }
 
+        public async Task<List<CustomerDto>> GetCustomers()
+        {
+            var customers = await _customerRepository.GetAllAsync();
+
+            return customers.Select(c => new CustomerDto(c.Id, c.Name, c.Email)).ToList();
+        }
+
         public async Task BulkInsertRandomAsync(int count)
         {
             await _customerRepository.BulkInsertRandomAsync(count);
         }
+
+
     }
 }

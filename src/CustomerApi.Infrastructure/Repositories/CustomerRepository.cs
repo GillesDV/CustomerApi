@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CustomerApi.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace CustomerApi.Infrastructure.Repositories
 {
@@ -44,9 +45,9 @@ namespace CustomerApi.Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Customer>> GetAllAsync()
+        public async Task<IEnumerable<Customer>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _customerDb.Customers.ToListAsync();
         }
 
         public async Task<Customer> GetByIdAsync(int id)

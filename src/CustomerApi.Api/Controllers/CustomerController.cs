@@ -35,6 +35,23 @@ namespace CustomerApi.Api.Controllers
             return Ok(result);
         }
 
+        [HttpGet]
+        [Route("")]
+        public async Task<IActionResult> GetAllCustomer()
+        {
+            var customers = await _customerService.GetCustomers();
+
+            //TODO use automapper
+            var results = customers.Select(customer => new CustomerResponse
+            {
+                Id = customer.Id,
+                Name = customer.Name,
+                Email = customer.Email
+            }).ToList();
+
+            return Ok(results);
+        }
+
         [HttpPost]  
         public async Task<IActionResult> CreateCustomer([FromBody] CreateCustomerRequest request)
         {
