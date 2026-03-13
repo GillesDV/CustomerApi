@@ -12,6 +12,8 @@ namespace CustomerApi.Application.DTO
         public string Name { get; set; }
         public string Email { get; set; }
 
+        public List<OrderDto> Orders { get; set; } = new List<OrderDto>();
+
         public CustomerDto()
         {
         }

@@ -20,6 +20,7 @@ namespace CustomerApi.Infrastructure
                 options.UseInMemoryDatabase("dbName"));
 
             services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
 
             return services;
         }
