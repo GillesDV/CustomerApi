@@ -27,19 +27,6 @@ namespace CustomerApi.Infrastructure.Repositories
             return entry.Entity;
         }
 
-        public async Task BulkInsertRandomAsync(int count)
-        {
-            var customers = new List<Customer>(count);
-
-            for (int i = 0; i < count; i++)
-            {
-                customers.Add(DummyDataHelper.GenerateRandomCustomer());
-            }
-
-            await _customerDb.Customers.AddRangeAsync(customers);
-            await _customerDb.SaveChangesAsync();
-        }
-
         public Task DeleteAsync(int id)
         {
             throw new NotImplementedException();

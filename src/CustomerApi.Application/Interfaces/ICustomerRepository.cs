@@ -14,7 +14,5 @@ namespace CustomerApi.Application.Interfaces
             Task<Customer> GetByIdAsync(int id);
             Task<Customer> AddAsync(Customer customer);
             Task DeleteAsync(int id);
-
-            Task BulkInsertRandomAsync(int count);
     }
 }

@@ -18,9 +18,12 @@ namespace CustomerApi.Infrastructure.Repositories
             _customerDb = customerDb;
         }
 
-        public Task<Order> AddAsync(Order order)
+        public async Task<Order> AddAsync(Order order)
         {
-            throw new NotImplementedException();
+            var entry = await _customerDb.Orders.AddAsync(order);
+            await _customerDb.SaveChangesAsync();
+
+            return entry.Entity;
         }
 
         public Task DeleteAsync(int id)
