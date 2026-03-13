@@ -44,5 +44,10 @@ namespace CustomerApi.Application.Services
             //TODO use automapper
             return new CustomerDto(customer.Id, customer.Name, customer.Email);
         }
+
+        public async Task BulkInsertRandomAsync(int count)
+        {
+            await _customerRepository.BulkInsertRandomAsync(count);
+        }
     }
 }

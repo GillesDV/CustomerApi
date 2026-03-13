@@ -12,5 +12,7 @@ namespace CustomerApi.Application.Interfaces
         Task<CustomerDto> GetCustomer(int id);
 
         Task<CustomerDto> CreateCustomer(CustomerDto customer);
+
+        Task BulkInsertRandomAsync(int count);
     }
 }

@@ -44,6 +44,22 @@ namespace CustomerApi.Api.Controllers
             return CreatedAtAction(nameof(GetCustomerById), new { id = result.Id }, result);
         }
 
+        /// <summary>
+        /// Endpoint to fill in the database with dummy customers for testing purposes. 
+        /// </summary>
+        /// <param name="count">specifies how many customers to create</param>
+        [HttpPost("bulk-insert-random/{count:int}")]
+        public async Task<IActionResult> InsertRandomCustomers(int count)
+        {
+            if (count <= 0)
+            {
+                return BadRequest("Count must be greater than 0.");
+            }
+
+            await _customerService.BulkInsertRandomAsync(count);
+
+            return Ok();
+        }
 
     }
 }
