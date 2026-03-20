@@ -16,5 +16,14 @@ namespace CustomerApi.Infrastructure
         public DbSet<Customer> Customers { get; set; } = null!;
         public DbSet<Order> Orders { get; set; } = null!;
 
+        //Not needed for now, EF auto-detects this 
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.Entity<Order>()
+        //        .HasOne(o => o.Customer)
+        //        .WithMany(c => c.Orders)
+        //        .HasForeignKey(o => o.CustomerId);
+        //}
+
     }
 }

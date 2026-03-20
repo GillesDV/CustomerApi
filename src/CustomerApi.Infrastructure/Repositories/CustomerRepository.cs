@@ -34,7 +34,7 @@ namespace CustomerApi.Infrastructure.Repositories
 
         public async Task<IEnumerable<Customer>> GetAllAsync()
         {
-            return await _customerDb.Customers.ToListAsync();
+            return await _customerDb.Customers.Include(c => c.Orders).ToListAsync();
         }
 
         public async Task<Customer> GetByIdAsync(int id)

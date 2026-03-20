@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CustomerApi.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,11 +19,12 @@ namespace CustomerApi.Application.DTO
         {
         }
 
-        public CustomerDto(int id, string name, string email)
+        public CustomerDto(int id, string name, string email, List<OrderDto> orders)
         {
             Id = id;
             Name = name;
             Email = email;
+            Orders = orders;
         }
     }
 }

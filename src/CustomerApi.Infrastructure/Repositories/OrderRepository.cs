@@ -40,5 +40,10 @@ namespace CustomerApi.Infrastructure.Repositories
         {
             return await _customerDb.Orders.FindAsync(id);
         }
+
+        public async Task<IEnumerable<Order>> GetOrdersByCustomerIdAsync(int customerId)
+        {
+            return await _customerDb.Orders.Where(o => o.CustomerId == customerId).ToListAsync();
+        }
     }
 }

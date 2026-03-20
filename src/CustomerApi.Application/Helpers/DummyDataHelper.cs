@@ -27,7 +27,7 @@ namespace CustomerApi.Infrastructure
             };
         }
 
-        public static Order GenerateRandomOrder(Customer? customer)
+        public static Order GenerateRandomOrder(int? customerId)
         {
             var id = _random.Next(int.MaxValue);
 
@@ -36,8 +36,7 @@ namespace CustomerApi.Infrastructure
                 Id = id,
                 CreatedAt = DateTime.UtcNow,
                 TotalAmount = (decimal)(_random.NextDouble() * 1_000),
-                CustomerId = customer?.Id ?? 0,
-                Customer = customer
+                CustomerId = customerId ?? 0,
             };
         }
 

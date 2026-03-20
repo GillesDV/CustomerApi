@@ -33,7 +33,7 @@ namespace CustomerApi.Application.Services
 
             var result = await _customerRepository.AddAsync(customerEntity);
             
-            return new CustomerDto(result.Id, result.Name, result.Email);
+            return new CustomerDto(result.Id, result.Name, result.Email, null);
         }
 
         public async Task<CustomerDto> GetCustomer(int id)
@@ -46,14 +46,14 @@ namespace CustomerApi.Application.Services
             }
 
             //TODO use automapper
-            return new CustomerDto(customer.Id, customer.Name, customer.Email);
+            return new CustomerDto(customer.Id, customer.Name, customer.Email, null);
         }
 
         public async Task<List<CustomerDto>> GetCustomers()
         {
             var customers = await _customerRepository.GetAllAsync();
 
-            return customers.Select(c => new CustomerDto(c.Id, c.Name, c.Email)).ToList();
+            return customers.Select(c => new CustomerDto(c.Id, c.Name, c.Email, null)).ToList();
         }
 
         public async Task BulkInsertRandomAsync(int count)
@@ -67,7 +67,7 @@ namespace CustomerApi.Application.Services
 
                 // Give some of them semi-randomly orders (for testing purposes)
                 if (newCustomer.Id % 2 == 0) {
-                    var newOrder = DummyDataHelper.GenerateRandomOrder(newCustomer);
+                    var newOrder = DummyDataHelper.GenerateRandomOrder(newCustomer.Id);
 
                     // should arguably be put in OrderService.cs, but again, we doing quick testing 
                     await _orderRepository.AddAsync(newOrder);
@@ -76,5 +76,17 @@ namespace CustomerApi.Application.Services
             }            
         }
 
+        public async Task<List<CustomerDto>> GetAllCustomersWithOrdersAsync()
+        {
+            var customers = await _customerRepository.GetAllAsync();
+
+            var results = customers
+                .Select(c => new CustomerDto(c.Id, c.Name, c.Email, c.Orders.Select(o => new OrderDto(o.Id, o.TotalAmount, c.Id, o.CreatedAt)
+                    ).ToList()))
+                .ToList();
+
+            return results;
+
+        }
     }
 }
