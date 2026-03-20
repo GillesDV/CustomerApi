@@ -17,5 +17,8 @@ namespace CustomerApi.Application.Interfaces
         Task BulkInsertRandomAsync(int count);
 
         Task<List<CustomerDto>> GetAllCustomersWithOrdersAsync();
+
+        [Obsolete("This method recreates the n+1 problem. Very inefficient.")]
+        Task<List<CustomerDto>> GetAllCustomersWithOrdersBadExample();
     }
 }

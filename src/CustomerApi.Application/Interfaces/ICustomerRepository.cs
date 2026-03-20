@@ -11,6 +11,7 @@ namespace CustomerApi.Application.Interfaces
     public interface ICustomerRepository
     {
             Task<IEnumerable<Customer>> GetAllAsync();
+            Task<IEnumerable<Customer>> GetAllWithChildPropsAsync();
             Task<Customer> GetByIdAsync(int id);
             Task<Customer> AddAsync(Customer customer);
             Task DeleteAsync(int id);

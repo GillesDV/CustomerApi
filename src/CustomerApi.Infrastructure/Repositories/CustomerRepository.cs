@@ -34,6 +34,11 @@ namespace CustomerApi.Infrastructure.Repositories
 
         public async Task<IEnumerable<Customer>> GetAllAsync()
         {
+            return await _customerDb.Customers.ToListAsync();
+        }
+
+        public async Task<IEnumerable<Customer>> GetAllWithChildPropsAsync()
+        {
             return await _customerDb.Customers.Include(c => c.Orders).ToListAsync();
         }
 

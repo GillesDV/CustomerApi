@@ -78,7 +78,7 @@ namespace CustomerApi.Application.Services
 
         public async Task<List<CustomerDto>> GetAllCustomersWithOrdersAsync()
         {
-            var customers = await _customerRepository.GetAllAsync();
+            var customers = await _customerRepository.GetAllWithChildPropsAsync();
 
             var results = customers
                 .Select(c => new CustomerDto(c.Id, c.Name, c.Email, c.Orders.Select(o => new OrderDto(o.Id, o.TotalAmount, c.Id, o.CreatedAt)
@@ -87,6 +87,24 @@ namespace CustomerApi.Application.Services
 
             return results;
 
+        }
+
+        [Obsolete("This method recreates the n+1 problem. Very inefficient.")]
+        public async Task<List<CustomerDto>> GetAllCustomersWithOrdersBadExample()
+        {
+            var customers = await _customerRepository.GetAllAsync();
+            var results = new List<CustomerDto>();
+
+            foreach (var customer in customers)
+            {
+                var orders = await _orderRepository.GetOrdersByCustomerIdAsync(customer.Id);
+
+                //TODO use automapper
+                results.Add(new CustomerDto(customer.Id, customer.Name, customer.Email, orders.Select(o => new OrderDto(o.Id, o.TotalAmount, customer.Id, o.CreatedAt)
+                    ).ToList()));
+            }
+
+            return results;
         }
     }
 }
