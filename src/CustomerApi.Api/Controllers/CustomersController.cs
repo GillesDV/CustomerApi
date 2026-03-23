@@ -24,6 +24,11 @@ namespace CustomerApi.Api.Controllers
         {
             var customer = await _customerService.GetCustomer(id);
 
+            if (customer is null)
+            {
+                return NotFound();
+            }
+
             //TODO use automapper
             var result = new CustomerResponse
             {

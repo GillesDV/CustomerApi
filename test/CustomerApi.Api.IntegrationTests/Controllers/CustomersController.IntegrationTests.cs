@@ -55,21 +55,15 @@ namespace CustomerApi.Api.IntegrationTests.Controllers
         }
 
         [Fact]
-        public async Task Given_CustomerExists_When_GetCustomerById_Then_ReturnsOkWithCustomerResponse2222()
+        public async Task Given_NoCustomerExists_When_GetCustomerById_Then_ReturnsNotFound()
         {
             // Arrange
-            using var scope = _factory.Services.CreateScope();
-            var db = scope.ServiceProvider.GetRequiredService<CustomerDb>();
 
             // Act
             var response = await _client.GetAsync($"/api/customers/999");
 
             // Assert
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
-
-            var result = await response.Content.ReadFromJsonAsync<CustomerResponse>();
-
-            Assert.Null(result);
         }
 
     }

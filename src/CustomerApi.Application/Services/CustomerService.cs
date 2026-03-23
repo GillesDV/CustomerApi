@@ -36,13 +36,13 @@ namespace CustomerApi.Application.Services
             return new CustomerDto(result.Id, result.Name, result.Email, null);
         }
 
-        public async Task<CustomerDto> GetCustomer(int id)
+        public async Task<CustomerDto?> GetCustomer(int id)
         {
             var customer = await _customerRepository.GetByIdAsync(id);
 
             if (customer is null)
             {
-                throw new EntityNotFoundException($"Customer with id {id} not found.");
+                return null;
             }
 
             //TODO use automapper
