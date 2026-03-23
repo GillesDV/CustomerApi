@@ -1,7 +1,7 @@
-using CustomerApi.Application.DTO;
-using Microsoft.OpenApi.Models;
-using CustomerApi.Infrastructure;
+using CustomerApi.Api.Mapping;
 using CustomerApi.Application;
+using CustomerApi.Infrastructure;
+using Microsoft.OpenApi.Models;
 
 public class Program
 {
@@ -9,13 +9,11 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        // Add services to the container.
-
         builder.Services.AddControllers();
-        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
 
         builder.Services.AddApplicationLayer();
+        builder.Services.AddAutoMapper(typeof(ApiMappingProfile));
         builder.Services.AddInfrastructureLayer();
 
         //TODO register proper logging, error handling, automapper
@@ -29,6 +27,7 @@ public class Program
                 Version = "v1"
             });
         });
+
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.

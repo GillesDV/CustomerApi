@@ -1,4 +1,6 @@
-﻿using CustomerApi.Api.Models;
+using AutoMapper;
+using CustomerApi.Api.Models;
+using CustomerApi.Application.DTO;
 using CustomerApi.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -9,12 +11,14 @@ namespace CustomerApi.Api.Controllers
     [Route("api/[controller]")]
     public class CustomersController : ControllerBase
     {
-        private ILogger<CustomersController> _logger;
+        private readonly ILogger<CustomersController> _logger;
+        private readonly IMapper _mapper;
         private readonly ICustomerService _customerService;
 
-        public CustomersController(ILogger<CustomersController> logger, ICustomerService customerService)
+        public CustomersController(ILogger<CustomersController> logger, IMapper mapper, ICustomerService customerService)
         {
             _logger = logger;
+            _mapper = mapper;
             _customerService = customerService;
         }
 
@@ -29,14 +33,8 @@ namespace CustomerApi.Api.Controllers
                 return NotFound();
             }
 
-            //TODO use automapper
-            var result = new CustomerResponse
-            {
-                Id = customer.Id,
-                Name = customer.Name,
-                Email = customer.Email
-            };
-            
+            var result = _mapper.Map<CustomerResponse>(customer);
+
             return Ok(result);
         }
 
@@ -45,29 +43,23 @@ namespace CustomerApi.Api.Controllers
         public async Task<IActionResult> GetAllCustomer()
         {
             var customers = await _customerService.GetCustomers();
-
-            //TODO use automapper
-            var results = customers.Select(customer => new CustomerResponse
-            {
-                Id = customer.Id,
-                Name = customer.Name,
-                Email = customer.Email
-            }).ToList();
+            var results = _mapper.Map<List<CustomerResponse>>(customers);
 
             return Ok(results);
         }
 
-        [HttpPost]  
+        [HttpPost]
         public async Task<IActionResult> CreateCustomer([FromBody] CreateCustomerRequest request)
         {
-            var customerdto = new Application.DTO.CustomerDto() { Name = request.Name, Email = request.Email };
-            var result = await _customerService.CreateCustomer(customerdto);
-            
-            return CreatedAtAction(nameof(GetCustomerById), new { id = result.Id }, result);
+            var customerDto = _mapper.Map<CustomerDto>(request);
+            var result = await _customerService.CreateCustomer(customerDto);
+            var response = _mapper.Map<CustomerResponse>(result);
+
+            return CreatedAtAction(nameof(GetCustomerById), new { id = response.Id }, response);
         }
 
         /// <summary>
-        /// Endpoint to fill in the database with dummy customers for testing purposes. 
+        /// Endpoint to fill in the database with dummy customers for testing purposes.
         /// </summary>
         /// <param name="count">specifies how many customers to create</param>
         [HttpPost("bulk-insert-random/{count:int}")]
@@ -92,6 +84,5 @@ namespace CustomerApi.Api.Controllers
             // TODO use new DTO
             return Ok(customers);
         }
-
     }
 }
