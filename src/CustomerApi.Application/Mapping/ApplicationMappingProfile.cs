@@ -8,10 +8,8 @@ namespace CustomerApi.Application.Mapping
     {
         public ApplicationMappingProfile()
         {
-            CreateMap<Customer, CustomerDto>();
-            CreateMap<CustomerDto, Customer>();
-            CreateMap<Order, OrderDto>(); //.ReverseMap();
-            CreateMap<OrderDto, Order>();
+            CreateMap<Customer, CustomerDto>().ReverseMap();
+            CreateMap<Order, OrderDto>().ReverseMap();
         }
     }
 }
