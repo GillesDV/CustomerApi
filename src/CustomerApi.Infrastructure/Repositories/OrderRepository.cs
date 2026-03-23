@@ -36,7 +36,7 @@ namespace CustomerApi.Infrastructure.Repositories
             return await _customerDb.Orders.ToListAsync();
         }
 
-        public async Task<Order> GetByIdAsync(int id)
+        public async Task<Order?> GetByIdAsync(int id)
         {
             return await _customerDb.Orders.FindAsync(id);
         }

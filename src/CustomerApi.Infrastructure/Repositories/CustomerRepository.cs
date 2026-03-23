@@ -42,7 +42,7 @@ namespace CustomerApi.Infrastructure.Repositories
             return await _customerDb.Customers.Include(c => c.Orders).ToListAsync();
         }
 
-        public async Task<Customer> GetByIdAsync(int id)
+        public async Task<Customer?> GetByIdAsync(int id)
         {
             return await _customerDb.Customers.FindAsync(id);
         }

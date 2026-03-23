@@ -11,7 +11,7 @@ namespace CustomerApi.Application.Interfaces
     {
         Task<IEnumerable<Order>> GetAllAsync();
         Task<IEnumerable<Order>> GetOrdersByCustomerIdAsync(int customerId);
-        Task<Order> GetByIdAsync(int id);
+        Task<Order?> GetByIdAsync(int id);
         Task<Order> AddAsync(Order order);
         Task DeleteAsync(int id);
     }
