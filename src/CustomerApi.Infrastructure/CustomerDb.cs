@@ -13,8 +13,8 @@ namespace CustomerApi.Infrastructure
     {
 
         public CustomerDb(DbContextOptions options) : base(options) { }
-        public DbSet<Customer> Customers { get; set; } = null!;
-        public DbSet<Order> Orders { get; set; } = null!;
+        public DbSet<Customer> Customers { get; set; } 
+        public DbSet<Order> Orders { get; set; }
 
         //Not needed for now, EF auto-detects this 
         //protected override void OnModelCreating(ModelBuilder modelBuilder)

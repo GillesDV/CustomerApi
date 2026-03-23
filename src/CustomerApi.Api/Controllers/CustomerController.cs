@@ -82,7 +82,7 @@ namespace CustomerApi.Api.Controllers
         [Route("with-orders")]
         public async Task<IActionResult> GetAllCustomersWithOrders()
         {
-            var customers = await _customerService.GetAllCustomersWithOrdersBadExample();
+            var customers = await _customerService.GetAllCustomersWithOrdersAsync();
 
             // TODO use new DTO
             return Ok(customers);
