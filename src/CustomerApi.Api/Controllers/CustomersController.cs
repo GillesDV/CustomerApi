@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 namespace CustomerApi.Api.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class CustomersController : ControllerBase
     {
         private ILogger<CustomersController> _logger;
