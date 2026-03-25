@@ -1,5 +1,6 @@
 using AutoMapper;
 using CustomerApi.Application.DTO;
+using CustomerApi.Application.Exceptions;
 using CustomerApi.Application.Interfaces;
 using CustomerApi.Domain.Entities;
 using CustomerApi.Infrastructure;
@@ -48,6 +49,11 @@ namespace CustomerApi.Application.Services
 
         public async Task BulkInsertRandomAsync(int count)
         {
+            if (count > 1_000)
+            {
+                throw new BulkInsertExceededException("Bulk insert count cannot exceed 1000.");
+            }
+
             var customers = new List<Customer>(count);
 
             for (int i = 0; i < count; i++)

@@ -1,7 +1,11 @@
+using CustomerApi.Api.ExceptionHandling;
 using CustomerApi.Api.Mapping;
+using CustomerApi.Api.Middleware;
 using CustomerApi.Application;
+using CustomerApi.Application.Exceptions;
 using CustomerApi.Infrastructure;
 using Microsoft.OpenApi.Models;
+using System.ComponentModel.DataAnnotations;
 
 public class Program
 {
@@ -16,7 +20,11 @@ public class Program
         builder.Services.AddAutoMapper(typeof(ApiMappingProfile));
         builder.Services.AddInfrastructureLayer();
 
-        //TODO register proper logging, error handling, automapper
+        //TODO register proper logging
+
+        builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+        builder.Services.AddProblemDetails();
+        builder.Services.AddCustomExceptionMapping();
 
         builder.Services.AddSwaggerGen(c =>
         {
@@ -36,6 +44,8 @@ public class Program
             app.UseSwagger();
             app.UseSwaggerUI();
         }
+
+        app.UseExceptionHandler();
 
         app.UseHttpsRedirection();
 
