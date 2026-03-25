@@ -1,9 +1,12 @@
 using AutoMapper;
 using CustomerApi.Api.Models;
+using CustomerApi.Api.Validation;
 using CustomerApi.Application.DTO;
 using CustomerApi.Application.Interfaces;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.ComponentModel.DataAnnotations;
 
 namespace CustomerApi.Api.Controllers
 {
@@ -14,12 +17,14 @@ namespace CustomerApi.Api.Controllers
         private readonly ILogger<CustomersController> _logger;
         private readonly IMapper _mapper;
         private readonly ICustomerService _customerService;
+        private readonly IValidator<CreateCustomerRequest> _createValidator;
 
-        public CustomersController(ILogger<CustomersController> logger, IMapper mapper, ICustomerService customerService)
+        public CustomersController(ILogger<CustomersController> logger, IMapper mapper, ICustomerService customerService, IValidator<CreateCustomerRequest> validator)
         {
             _logger = logger;
             _mapper = mapper;
             _customerService = customerService;
+            _createValidator = validator;
         }
 
         [HttpGet]
@@ -51,6 +56,13 @@ namespace CustomerApi.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateCustomer([FromBody] CreateCustomerRequest request)
         {
+            //Could also move this into a Filter or Mediatr pattern, but simplicity wins. Also FluentValidation.AspNetCore is deprecated, so no dice
+            var resultValidation = await _createValidator.ValidateAsync(request);
+            if (!resultValidation.IsValid)
+            {
+                return BadRequest(resultValidation.Errors);
+            }
+
             var customerDto = _mapper.Map<CustomerDto>(request);
             var result = await _customerService.CreateCustomer(customerDto);
             var response = _mapper.Map<CustomerResponse>(result);

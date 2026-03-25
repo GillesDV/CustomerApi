@@ -1,4 +1,8 @@
-﻿using CustomerApi.Application.Exceptions;
+﻿using CustomerApi.Api.Models;
+using CustomerApi.Api.Validation;
+using CustomerApi.Application.Exceptions;
+using FluentValidation;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace CustomerApi.Api.ExceptionHandling
@@ -12,11 +16,12 @@ namespace CustomerApi.Api.ExceptionHandling
                 var options = new ExceptionMappingOptions();
 
                 options.Map<EntityNotFoundException>(StatusCodes.Status404NotFound);
-                options.Map<ValidationException>(StatusCodes.Status400BadRequest);
                 options.Map<BulkInsertExceededException>(StatusCodes.Status400BadRequest);
 
                 return options;
             });
+
+            services.AddScoped<IValidator<CreateCustomerRequest>, CreateCustomerRequestValidator>();
 
             return services;
         }
